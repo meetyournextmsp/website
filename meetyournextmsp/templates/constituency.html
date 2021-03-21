@@ -1,25 +1,30 @@
 {% extends 'base.html' %}
 
+
+{% block htmltitle %}{{ constituency_title }} ({{ region_title }}){% endblock %}
+
+
 {% block content %}
 
 
-{{ constituency_title }} ({{ region_title }})
+<h2>{{ constituency_title }} ({{ region_title }})</h2>
 
 
 
 {% if events %}
 
-    <h3>Events</h3>
-
     {% for event in events %}
 
         <div>
-            {{ event.title }}
+            <p>{{ event.title }}</p>
             {% if event.cancelled %}
-                CANCELLED
+                <p>CANCELLED</p>
             {% else %}
-                {{ event.description }}
+                <p>{{ event.description }}</p>
             {% endif %}
+
+            <p>{{ event.get_start_strftime() }}</p>
+
             <a href="/event/{{ event.id }}">Find out more</a>
         </div>
 
@@ -34,13 +39,20 @@
 
 {% if national_events %}
 
-    <h3>National events</h3>
+    <h2>National events</h2>
 
     {% for event in national_events %}
 
         <div>
-            {{ event.title }}
-            {{ event.description }}
+            <p>{{ event.title }}</p>
+            {% if event.cancelled %}
+                <p>CANCELLED</p>
+            {% else %}
+                <p>{{ event.description }}</p>
+            {% endif %}
+
+            <p>{{ event.get_start_strftime() }}</p>
+
             <a href="/event/{{ event.id }}">Find out more</a>
         </div>
 

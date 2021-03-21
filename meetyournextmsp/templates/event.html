@@ -1,11 +1,21 @@
 {% extends 'base.html' %}
 
+
+{% block htmltitle %}{{ event.title }}{% endblock %}
+
+
 {% block content %}
 
 
-{{ event.title }}
+<h2>{{ event.title }}</h2>
 
-{{ event.description }}
+<p>{{ event.description }}</p>
+
+<p>{{ event.get_start_strftime() }} - {{ event.get_end_strftime() }}</p>
+
+{% if event.url %}
+    <a href="{{ event.url }}">Find out more</a>
+{% endif %}
 
 
 {% endblock %}

@@ -1,1 +1,40 @@
+html, body {
+    padding: 0px;
+    margin: 0px;
+}
 
+.contentColumn {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 10px;
+}
+
+.header {
+    background: #0065BF;
+    color: white;
+    padding: 10px 0;
+}
+
+.content {
+    padding: 10px 0;
+}
+
+.footer {
+    text-align: center;
+    padding: 50px 0;
+    font-size: 80%;
+}
+
+h1, h2, h3, h4 {
+    font-family: arial, sans-serif;
+}
+
+h1 a {
+    color: white;
+    text-decoration: none;
+}
+
+h1 a:hover, h1 a:focus {
+    color: white;
+    text-decoration: underline;
+}

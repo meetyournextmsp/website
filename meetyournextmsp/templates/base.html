@@ -1,15 +1,27 @@
 <!doctype html>
 <html>
     <head>
-        <title>{% block title %}{% endblock %} - Meet Your Next MSP</title>
+        <title>{% block htmltitle %}{% endblock %} - Meet Your Next MSP</title>
         <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+        <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="HandheldFriendly" content="true">
     </head>
     <body>
-        <nav>
-          <h1>Meet Your Next MSP</h1>
-        </nav>
-        <section class="content">
-          {% block content %}{% endblock %}
-        </section>
+        <div class="header">
+            <div class="contentColumn">
+                <h1><a href="/">Meet Your Next MSP</a></h1>
+            </div>
+        </div>
+        <div class="content">
+            <div class="contentColumn">
+                {% block content %}{% endblock %}
+            </div>
+        </div>
+        <div class="footer">
+            <div class="contentColumn">
+                Footer Text
+            </div>
+        </div>
     </body>
 </html>
