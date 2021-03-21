@@ -50,9 +50,25 @@ def create_app(test_config=None):
         tag = cur.fetchone()
         if not tag:
             abort(404)
+
+        cur.execute('SELECT * FROM tag WHERE extra_is_region=1 AND id=?', [tag['extra_region']])
+        region_tag = cur.fetchone()
         cur.execute('SELECT event.* FROM event JOIN event_has_tag ON event_has_tag.event_id = event.id WHERE event_has_tag.tag_id=?', ['national'])
         national_events = cur.fetchall()
 
-        return render_template('constituency.html', constituency_title=tag['title'], national_events=national_events)
+        # TODO need a group by so if an event is in both region and constituency it won't appear twice
+        cur.execute(
+            'SELECT event.* FROM event JOIN event_has_tag ON event_has_tag.event_id = event.id WHERE event_has_tag.tag_id=? OR event_has_tag.tag_id=?',
+            [tag['id'], tag['extra_region']]
+        )
+        events = cur.fetchall()
+
+        return render_template(
+            'constituency.html',
+            constituency_title=tag['title'],
+            national_events=national_events,
+            events=events,
+            region_title=region_tag['title']
+        )
 
     return app

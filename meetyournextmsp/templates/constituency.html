@@ -3,7 +3,33 @@
 {% block content %}
 
 
-{{ constituency_title }}
+{{ constituency_title }} ({{ region_title }})
+
+
+
+{% if events %}
+
+    <h3>Events</h3>
+
+    {% for event in events %}
+
+        <div>
+            {{ event.title }}
+            {% if event.cancelled %}
+                CANCELLED
+            {% else %}
+                {{ event.description }}
+            {% endif %}
+            <a href="/event/{{ event.id }}">Find out more</a>
+        </div>
+
+    {% endfor %}
+
+{% else %}
+
+    Sorry, we don't know of any events for {{ constituency_title }} or the region of {{ region_title }}.
+
+{% endif %}
 
 
 {% if national_events %}
