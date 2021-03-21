@@ -51,6 +51,9 @@ def create_app(test_config=None):
         tag = cur.fetchone()
         if not tag:
             abort(404)
-        return render_template('constituency.html', constituency_title=tag['title'])
+        cur.execute('SELECT event.* FROM event JOIN event_has_tag ON event_has_tag.event_id = event.id WHERE event_has_tag.tag_id=?', ['national'])
+        national_events = cur.fetchall()
+
+        return render_template('constituency.html', constituency_title=tag['title'], national_events=national_events)
 
     return app

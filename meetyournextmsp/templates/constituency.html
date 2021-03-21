@@ -6,6 +6,23 @@
 {{ constituency_title }}
 
 
+{% if national_events %}
+
+    <h3>National events</h3>
+
+    {% for event in national_events %}
+
+        <div>
+            {{ event.title }}
+            {{ event.description }}
+            <a href="/event/{{ event.id }}">Find out more</a>
+        </div>
+
+    {% endfor %}
+
+{% endif %}
+
+
 {% endblock %}
 
 
