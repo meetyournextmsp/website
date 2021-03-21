@@ -41,4 +41,16 @@ def create_app(test_config=None):
             abort(404)
         return render_template('event.html', event=event)
 
+    @app.route("/constituency/<id>")
+    def constituency(id):
+        database = sqlite3.connect(app.config['DATABASE'])
+        database.row_factory = sqlite3.Row
+        cur = database.cursor()
+        # TODO make sure this tag is for a constituency
+        cur.execute('SELECT * FROM tag WHERE id=?', [id])
+        tag = cur.fetchone()
+        if not tag:
+            abort(404)
+        return render_template('constituency.html', constituency_title=tag['title'])
+
     return app
