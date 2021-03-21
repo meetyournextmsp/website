@@ -3,13 +3,14 @@ import sqlite3
 from .event import Event
 
 
-from flask import Flask, render_template, abort
+from flask import Flask, render_template, abort, redirect, request
 
 def create_app(test_config=None):
     app = Flask(__name__, instance_relative_config=True)
     app.config.from_mapping(
         SECRET_KEY='dev',
-        DATABASE=os.path.join(app.instance_path, 'meetyournextmsp.sqlite')
+        DATABASE=os.path.join(app.instance_path, 'meetyournextmsp.sqlite'),
+        DATABASE_POSTCODES=os.path.join(app.instance_path, 'postcodes.sqlite'),
     )
 
     if test_config is None:
@@ -22,10 +23,21 @@ def create_app(test_config=None):
     except OSError:
         pass
 
-
-    @app.route("/")
+    @app.route("/", methods = ['POST', 'GET'] )
     def index():
-        return render_template('index.html')
+        if request.method == 'POST' and request.form['postcode']:
+            postcode = request.form['postcode'].replace(' ','').lower()
+            database = sqlite3.connect(app.config['DATABASE_POSTCODES'])
+            database.row_factory = sqlite3.Row
+            cur = database.cursor()
+            cur.execute('SELECT * FROM lookup WHERE Postcode=?', [postcode])
+            data = cur.fetchone()
+            if data:
+                return redirect('/constituency/'+data['ScottishParliamentaryConstituency2014Name'])
+            else:
+                return render_template('index-postcode-error.html')
+        else:
+            return render_template('index.html')
 
     @app.route("/contribute")
     def contribute():
