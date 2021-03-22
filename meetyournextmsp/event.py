@@ -22,7 +22,7 @@ class Event:
             self.data['start_minute'],
             tzinfo=pytz.timezone('Europe/London')
         )
-        return start.strftime('%I:%M%p %d %b %Y')
+        return start.strftime('%a %d %b %Y %I:%M%p')
 
     def get_end_strftime(self):
         end = datetime.datetime(

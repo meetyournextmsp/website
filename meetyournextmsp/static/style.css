@@ -38,3 +38,62 @@ h1 a:hover, h1 a:focus {
     color: white;
     text-decoration: underline;
 }
+
+p.front-page {
+    text-align: center;
+    font-size: 130%;
+    margin: 30px 0;
+    font-family: arial, sans-serif;
+}
+
+p.front-page-mini {
+    text-align: center;
+    margin: 30px 0;
+    font-family: arial, sans-serif;
+}
+
+form.front-page input {
+    display: block;
+    margin: 30px auto;
+    font-size: 130%;
+    font-family: arial, sans-serif;
+}
+
+.action-button-wrapper {
+    text-align: right;
+    padding: 5px;
+}
+a.action-button {
+    background: #0065BF;
+    color: white;
+    text-decoration: none;
+    display: inline-block;
+    padding: 5px 20px;
+    font-family: arial, sans-serif;
+}
+a.action-button:hover, a.action-button:focus {
+    color: white;
+    text-decoration: underline;
+}
+
+
+.event-listing {
+    margin: 10px 0;
+    border: 1px solid black;
+    border-radius: 5px;
+    padding: 5px;
+}
+.event-listing-cancelled {
+    color: #666;
+}
+.event-listing p.cancelled {
+    background: #666;
+    padding: 5px;
+    text-align: center;
+    color: white;
+}
+.event-listing .date-time {
+    text-align: right;
+}
+
+

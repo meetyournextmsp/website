@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+
+{% block htmltitle %}Constituencies{% endblock %}
+
+
+{% block content %}
+
+
+    <h2>Constituencies</h2>
+
+
+    <p>Enter your postcode or select from the list below.</p>
+
+      <form method="post" action="/">
+        <input name="postcode">
+        <input type="submit" value="Find My Events">
+      </form>
+
+
+    <ul>
+        {% for constituency in constituencies %}
+            <li><a href="/constituency/{{ constituency.id }}">{{ constituency.title }}</a></li>
+        {% endfor %}
+    </ul>
+
+{% endblock %}
+
+

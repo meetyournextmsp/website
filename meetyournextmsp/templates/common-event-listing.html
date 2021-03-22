@@ -1,0 +1,21 @@
+
+<div class="event-listing{% if event.cancelled %} event-listing-cancelled{% endif %}">
+    {% if event.cancelled %}
+        <p class="cancelled">CANCELLED</p>
+    {% endif %}
+
+    <h3>{{ event.title }}</h3>
+    {% if not event.cancelled %}
+        <p>{{ event.description }}</p>
+    {% endif %}
+
+    <p class="date-time">
+        {{ event.get_start_strftime() }}
+    </p>
+
+    {% if event.url %}
+        <div class="action-button-wrapper">
+            <a href="{{ event.url }}" class="action-button">Find out more</a>
+        </div>
+    {% endif %}
+</div>

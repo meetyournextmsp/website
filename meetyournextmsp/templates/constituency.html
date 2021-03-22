@@ -7,62 +7,38 @@
 {% block content %}
 
 
-<h2>{{ constituency_title }} ({{ region_title }})</h2>
+    <h2>{{ constituency_title }} ({{ region_title }})</h2>
 
 
 
-{% if events %}
+    {% if events %}
 
-    {% for event in events %}
+        {% for event in events %}
+            {% include 'common-event-listing.html' %}
+        {% endfor %}
 
-        <div>
-            <p>{{ event.title }}</p>
-            {% if event.cancelled %}
-                <p>CANCELLED</p>
-            {% else %}
-                <p>{{ event.description }}</p>
-            {% endif %}
+    {% else %}
 
-            <p>{{ event.get_start_strftime() }}</p>
+        Sorry, we don't know of any events for {{ constituency_title }} or the region of {{ region_title }}.
 
-            <a href="/event/{{ event.id }}">Find out more</a>
-        </div>
-
-    {% endfor %}
-
-{% else %}
-
-    Sorry, we don't know of any events for {{ constituency_title }} or the region of {{ region_title }}.
-
-{% endif %}
+    {% endif %}
 
 
-{% if national_events %}
+    {% if national_events %}
 
-    <h2>National events</h2>
+        <h2>National events</h2>
 
-    {% for event in national_events %}
+        {% for event in national_events %}
+            {% include 'common-event-listing.html' %}
+        {% endfor %}
 
-        <div>
-            <p>{{ event.title }}</p>
-            {% if event.cancelled %}
-                <p>CANCELLED</p>
-            {% else %}
-                <p>{{ event.description }}</p>
-            {% endif %}
+    {% endif %}
 
-            <p>{{ event.get_start_strftime() }}</p>
+    <h2>Do you know of any more events?</h2>
 
-            <a href="/event/{{ event.id }}">Find out more</a>
-        </div>
-
-    {% endfor %}
-
-{% endif %}
-
-<h2>Do you know of any events?</h2>
-
-<a href="/contribute">Please tell us</a>
+    <div class="action-button-wrapper">
+        <a href="/contribute" class="action-button">Please tell us</a>
+    </div>
 
 {% endblock %}
 

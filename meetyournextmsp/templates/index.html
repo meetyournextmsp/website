@@ -4,16 +4,18 @@
 
 {% block content %}
 
-  <p>Before you vote in the Scottish Parliament elections, hear from your candidates and the parties on issues that matter to you.</p>
+  <p class="front-page">Before you vote in the Scottish Parliament elections, hear from your candidates and the parties on issues that matter to you.</p>
 
-  <p>Hustings are public meetings with politicians from opposing sides; you can attend and ask questions.</p>
+  <p class="front-page">Hustings are public meetings with politicians from opposing sides; you can attend and ask questions.</p>
 
-  <p>To find events for you, please tell us your postcode:</p>
+  <p class="front-page">To find events for you, please tell us your postcode:</p>
 
-  <form method="post">
+  <form method="post" class="front-page">
     <input name="postcode">
     <input type="submit" value="Find My Events">
   </form>
+
+  <p class="front-page-mini">(or <a href="/constituencies">select from this list of constituencies</a>)</p>
 
 {% endblock %}
 
