@@ -48,9 +48,10 @@
         {% endfor %}
       </select>:
       <select name="start-time-minute">
-        {% for row in range(0,60) %}
-          <option value="{{ row }}">{{ row }}</option>
-        {% endfor %}
+          <option value="00">0</option>
+          <option value="15">15</option>
+          <option value="30">30</option>
+          <option value="45">45</option>
       </select>
     </div>
     
@@ -62,9 +63,10 @@
         {% endfor %}
       </select>:
       <select name="end-time-minute">
-        {% for row in range(0,60) %}
-          <option value="{{ row }}">{{ row }}</option>
-        {% endfor %}
+          <option value="00">0</option>
+          <option value="15">15</option>
+          <option value="30">30</option>
+          <option value="45">45</option>
       </select>
     </div>
 
