@@ -1,6 +1,9 @@
 import os
 import sqlite3
 from .event import Event
+import yaml
+import uuid
+import datetime
 
 
 from flask import Flask, render_template, abort, redirect, request
@@ -11,6 +14,7 @@ def create_app(test_config=None):
         SECRET_KEY='dev',
         DATABASE=os.path.join(app.instance_path, 'meetyournextmsp.sqlite'),
         DATABASE_POSTCODES=os.path.join(app.instance_path, 'postcodes.sqlite'),
+        CONTRIBUTIONS_DIRECTORY=''
     )
 
     if test_config is None:
@@ -39,9 +43,46 @@ def create_app(test_config=None):
         else:
             return render_template('index.html')
 
-    @app.route("/contribute")
+    @app.route("/contribute", methods = ['POST', 'GET'] )
     def contribute():
-        return render_template('contribute.html')
+        if request.method == 'POST':
+            event_data = {
+                'title': request.form['title'],
+                'description': request.form['description'],
+                'url': request.form['url'],
+                'cancelled': False,
+                'deleted': False,
+                'tags': [],
+            }
+            if 'tag-national' in request.form:
+                event_data['tags'].append('national')
+            else:
+                for k,v in request.form.items():
+                    if v and k.startswith('tag-'):
+                        event_data['tags'].append(k[4:])
+            date = request.form['start-date']
+            event_data['start'] = date + " " + request.form['start-time-hour'] + ":" + request.form['start-time-minute']
+            event_data['end'] = date + " " + request.form['end-time-hour'] + ":" + request.form['end-time-minute']
+            meta_data = {
+                'email': request.form['email']
+            }
+            dir_name = datetime.datetime.now().strftime('%Y-%m-%d-%H-%M-%S') + str(uuid.uuid4())
+            os.makedirs(os.path.join(app.config['CONTRIBUTIONS_DIRECTORY'], dir_name))
+            with open(os.path.join(app.config['CONTRIBUTIONS_DIRECTORY'], dir_name, 'event.yaml'), "w") as fp:
+                yaml.dump(event_data, fp)
+            with open(os.path.join(app.config['CONTRIBUTIONS_DIRECTORY'], dir_name, 'meta.yml'), "w") as fp:
+                yaml.dump(meta_data, fp)
+            return render_template('contribute-thankyou.html')
+
+        else:
+            database = sqlite3.connect(app.config['DATABASE'])
+            database.row_factory = sqlite3.Row
+            cur = database.cursor()
+            cur.execute('SELECT * FROM tag WHERE  extra_is_constituency=1 ORDER by title ASC', [])
+            constituencies = cur.fetchall()
+            cur.execute('SELECT * FROM tag WHERE  extra_is_region=1 ORDER by title ASC', [])
+            regions = cur.fetchall()
+            return render_template('contribute.html', constituencies=constituencies, regions=regions )
 
     @app.route("/event/<id>")
     def event(id):

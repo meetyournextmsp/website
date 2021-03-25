@@ -8,11 +8,130 @@
 
   <p>If you know of any hustings, please let us know!</p>
 
-  <iframe src="https://docs.google.com/forms/d/e/1FAIpQLScDptSyRWlQqxyfpKo3DRFjs32M2WLsrUap9KKft4152esYPA/viewform?embedded=true" width="640" height="1674" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>
+  <p>You can email us at <a href="mailto:hello@meetyournextmsp.scot">hello@meetyournextmsp.scot</a>, or fill out the form below.</p>
+
+  <form method="post">
+
+    <div class="input-group">
+      <label>
+        Title
+        <input type="text" name="title" required>
+      </label>
+    </div>
+
+    <div class="input-group">
+      <label>
+        Description
+        <textarea name="description"></textarea>
+      </label>
+    </div>
+
+    <div class="input-group">
+      <label>
+        Website - A URL of an website where people can find out more and sign up
+        <input type="url" name="url" required>
+      </label>
+    </div>
+
+    <div class="input-group">
+      <label>
+        Date
+        <input type="date" name="start-date" required>
+      </label>
+    </div>
+
+    <div class="input-group">
+      Start Time
+      <select name="start-time-hour">
+        {% for row in range(0,24) %}
+          <option value="{{ row }}">{{ row }}</option>
+        {% endfor %}
+      </select>:
+      <select name="start-time-minute">
+        {% for row in range(0,60) %}
+          <option value="{{ row }}">{{ row }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    
+    <div class="input-group">
+      End Time
+      <select name="end-time-hour">
+        {% for row in range(0,24) %}
+          <option value="{{ row }}">{{ row }}</option>
+        {% endfor %}
+      </select>:
+      <select name="end-time-minute">
+        {% for row in range(0,60) %}
+          <option value="{{ row }}">{{ row }}</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <div class="input-group">
+      What part of Scotland is this about? (Tick as many as apply)
+
+      <ul class="input-where">
+        <li><label><input type="checkbox" name="tag-national" id="input-tag-national"> National - this hustings is not about a specific part of Scotland</label></li>
+      </ul>
+
+      <div id="input-tags-not-national">
+
+        Or is this about a region?
+
+        <ul class="input-where">
+          {% for tag in regions %}
+            <li><label><input type="checkbox" name="tag-{{ tag.id }}" class="input-tag-not-national">{{ tag.title }}</label></li>
+          {% endfor %}
+        </ul>
+
+        Or is this about a constituency?
+
+        <ul class="input-where">
+          {% for tag in constituencies %}
+            <li><label><input type="checkbox" name="tag-{{ tag.id }}" class="input-tag-not-national">{{ tag.title }}</label></li>
+          {% endfor %}
+        </ul>
+
+      </div>
+
+    </div>
+
+    <div class="input-group">
+      <label>
+        Your Email - this will <b>not</b> be published, and will only be used if we need to contact you with any questions about this.
+        <input type="email" name="email" required>
+      </label>
+    </div>
+
+    <div class="action-button-wrapper">
+      <input type="submit" value="Send information">
+    </div>
+
+  </form>
+
 
 {% endblock %}
 
+{% block javascripts %}
 
+  <script
+      src="https://code.jquery.com/jquery-3.6.0.min.js"
+      integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+      crossorigin="anonymous"></script>
+  <script>
+    $( document ).ready(function() {
+      $( "#input-tag-national").change(function() {
+        if ($( "#input-tag-national").is(":checked")) {
+          $(".input-tag-not-national").prop( "disabled", true );
+          $('#input-tags-not-national').hide();
+        } else {
+          $(".input-tag-not-national").prop( "disabled", false );
+          $('#input-tags-not-national').show();
+        }
+      });
+    });
+  </script>
 
-
+{% endblock %}
 

@@ -63,7 +63,7 @@ form.front-page input {
     text-align: right;
     padding: 5px;
 }
-a.action-button {
+a.action-button, .action-button-wrapper input[type="submit"] {
     background: #0065BF;
     color: white;
     text-decoration: none;
@@ -71,7 +71,7 @@ a.action-button {
     padding: 5px 20px;
     font-family: arial, sans-serif;
 }
-a.action-button:hover, a.action-button:focus {
+a.action-button:hover, a.action-button:focus, .action-button-wrapper input[type="submit"]:hover, .action-button-wrapper input[type="submit"]:focus {
     color: white;
     text-decoration: underline;
 }
@@ -97,3 +97,20 @@ a.action-button:hover, a.action-button:focus {
 }
 
 
+form .input-group {
+    display: block;
+    margin: 20px 0;
+}
+
+form .input-group ul.input-where li {
+     list-style-type: none;
+}
+
+form input[type="text"], form input[type="email"], form input[type="url"], form textarea {
+    display: block;
+}
+
+form textarea {
+    width: 100%;
+    height: 100px;
+}

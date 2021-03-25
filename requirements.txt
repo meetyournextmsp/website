@@ -1,5 +1,6 @@
 Flask==1.1.2
 pytz==2021.1
+PyYAML==5.4.1
 ## The following requirements were added by pip freeze:
 click==7.1.2
 itsdangerous==1.1.0
