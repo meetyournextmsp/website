@@ -45,7 +45,7 @@ def create_app(test_config=None):
 
     @app.route("/contribute", methods = ['POST', 'GET'] )
     def contribute():
-        if request.method == 'POST':
+        if request.method == 'POST' and request.form['feedback'].strip() in ['2','two']:
             event_data = {
                 'title': request.form['title'],
                 'description': request.form['description'],
