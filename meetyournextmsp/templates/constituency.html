@@ -24,6 +24,13 @@
     {% endif %}
 
 
+    <h2>Do you know of any more events?</h2>
+
+    <div class="action-button-wrapper">
+        <a href="/contribute" class="action-button">Tell us about more events</a>
+    </div>
+
+
     {% if national_events %}
 
         <h2>National events</h2>
@@ -32,14 +39,13 @@
             {% include 'common-event-listing.html' %}
         {% endfor %}
 
+        <h2>Do you know of any more events?</h2>
+
+        <div class="action-button-wrapper">
+            <a href="/contribute" class="action-button">Tell us about more events</a>
+        </div>
+
     {% endif %}
-
-    <h2>Do you know of any more events?</h2>
-
-    <div class="action-button-wrapper">
-        <a href="/contribute" class="action-button">Tell us about more events</a>
-    </div>
-
 {% endblock %}
 
 
