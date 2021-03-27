@@ -63,6 +63,10 @@ form.front-page input {
     font-family: arial, sans-serif;
 }
 
+ul.constituencies li {
+     margin: 5px 0;
+}
+
 .action-button-wrapper {
     text-align: right;
     padding: 5px;
