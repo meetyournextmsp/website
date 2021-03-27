@@ -108,6 +108,7 @@ form .input-group {
 
 form .input-group ul.input-where li {
      list-style-type: none;
+     margin: 5px 0;
 }
 
 form input[type="text"], form input[type="email"], form input[type="url"], form textarea {
