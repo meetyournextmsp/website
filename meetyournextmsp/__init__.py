@@ -152,4 +152,8 @@ def create_app(test_config=None):
             region_title=region_tag['title']
         )
 
+    @app.route("/about")
+    def about():
+        return render_template('about.html')
+
     return app
