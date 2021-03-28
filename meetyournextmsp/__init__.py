@@ -35,12 +35,24 @@ def create_app(test_config=None):
             database = sqlite3.connect(app.config['DATABASE_POSTCODES'])
             database.row_factory = sqlite3.Row
             cur = database.cursor()
-            cur.execute('SELECT * FROM lookup WHERE Postcode=?', [postcode])
+            # Try and find an exact match.
+            cur.execute(
+                'SELECT ScottishParliamentaryConstituency2014Name FROM lookup WHERE Postcode=?',
+                [postcode]
+            )
             data = cur.fetchone()
             if data:
                 return redirect('/constituency/'+data['ScottishParliamentaryConstituency2014Name'])
-            else:
-                return render_template('index-postcode-error.html')
+            # Does a partial match work?
+            cur.execute(
+                'SELECT ScottishParliamentaryConstituency2014Name FROM lookup WHERE Postcode LIKE ? GROUP BY ScottishParliamentaryConstituency2014Name',
+                [postcode+"%"]
+            )
+            data = cur.fetchall()
+            if data and len(data) == 1:
+                return redirect('/constituency/'+data[0]['ScottishParliamentaryConstituency2014Name'])
+            # Give up
+            return render_template('index-postcode-error.html')
         else:
             return render_template('index.html')
 
