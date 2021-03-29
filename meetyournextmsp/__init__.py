@@ -156,4 +156,16 @@ def create_app(test_config=None):
     def about():
         return render_template('about.html')
 
+    @app.route("/all_events")
+    def all_events():
+        database = sqlite3.connect(app.config['DATABASE'])
+        database.row_factory = sqlite3.Row
+        cur = database.cursor()
+        cur.execute(
+            'SELECT event.* FROM event WHERE event.start_epoch > ? AND event.deleted = 0 ORDER BY event.start_epoch ASC',
+            [time.time()]
+        )
+        all_events = [Event(i) for i in cur.fetchall()]
+        return render_template('all_events.html', all_events=all_events)
+
     return app

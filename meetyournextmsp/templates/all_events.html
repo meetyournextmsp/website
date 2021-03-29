@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+
+{% block htmltitle %}All Events{% endblock %}
+
+
+{% block content %}
+
+
+    <h2>All events</h2>
+
+
+
+    {% if all_events %}
+
+        {% for event in all_events %}
+            {% include 'common-event-listing.html' %}
+        {% endfor %}
+
+    {% else %}
+
+        Sorry, we don't know of any events now.
+
+    {% endif %}
+
+
+    <h2>Do you know of any more events?</h2>
+
+    <div class="action-button-wrapper">
+        <a href="/contribute" class="action-button">Tell us about more events</a>
+    </div>
+
+{% endblock %}
+
+
+
