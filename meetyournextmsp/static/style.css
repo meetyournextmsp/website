@@ -2,6 +2,7 @@ html, body {
     padding: 0px;
     margin: 0px;
     font-size: 16px;
+    background: #eee;
 }
 
 .contentColumn {
@@ -17,10 +18,12 @@ html, body {
 }
 
 .content {
-    padding: 10px 0;
+    padding: 10px 0 50px 0;
+    background: #fff;
 }
 
 .footer {
+    background: #eee;
     text-align: right;
     padding: 50px 0;
     font-size: 0.9rem;
@@ -88,9 +91,9 @@ a.action-button:hover, a.action-button:focus, .action-button-wrapper input[type=
 
 .event-listing {
     margin: 10px 0;
-    border: 1px solid black;
-    border-radius: 5px;
-    padding: 5px;
+    background: #eee;
+    border-radius: 2px;
+    padding: 10px 5px;
 }
 .event-listing-cancelled {
     color: #666;
@@ -104,7 +107,16 @@ a.action-button:hover, a.action-button:focus, .action-button-wrapper input[type=
 .event-listing .date-time {
     text-align: right;
 }
-
+.event-listing p.description {
+    white-space: pre-line;
+}
+.event-listing h3 {
+    margin-top: 0;
+}
+.event-listing .action-button-wrapper {
+    padding-right: 0;
+    padding-bottom: 0;
+}
 
 form .input-group {
     display: block;
