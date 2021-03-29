@@ -129,14 +129,12 @@ def create_app(test_config=None):
 
         cur.execute('SELECT * FROM tag WHERE extra_is_region=1 AND id=?', [tag['extra_region']])
         region_tag = cur.fetchone()
-        # TODO don't show event that have passed
         cur.execute(
             'SELECT event.* FROM event JOIN event_has_tag ON event_has_tag.event_id = event.id WHERE event.start_epoch > ? AND event.deleted = 0 AND event_has_tag.tag_id=? ORDER BY event.start_epoch ASC',
             [time.time(), 'national']
         )
         national_events = [Event(i) for i in cur.fetchall()]
 
-        # TODO don't show event that have passed
         # TODO need a group by so if an event is in both region and constituency it won't appear twice
         cur.execute(
             'SELECT event.* FROM event JOIN event_has_tag ON event_has_tag.event_id = event.id WHERE event.start_epoch > ? AND  event.deleted = 0 AND  (event_has_tag.tag_id=? OR event_has_tag.tag_id=?) ORDER BY event.start_epoch ASC',
