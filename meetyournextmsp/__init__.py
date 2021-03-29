@@ -5,9 +5,11 @@ import yaml
 import uuid
 import datetime
 import time
-
+import sentry_sdk
+from sentry_sdk.integrations.flask import FlaskIntegration
 
 from flask import Flask, render_template, abort, redirect, request
+
 
 def create_app(test_config=None):
     app = Flask(__name__, instance_relative_config=True)
@@ -15,18 +17,25 @@ def create_app(test_config=None):
         SECRET_KEY='dev',
         DATABASE=os.path.join(app.instance_path, 'meetyournextmsp.sqlite'),
         DATABASE_POSTCODES=os.path.join(app.instance_path, 'postcodes.sqlite'),
-        CONTRIBUTIONS_DIRECTORY=''
+        CONTRIBUTIONS_DIRECTORY='',
+        SENTRY_DSN='',
     )
 
     if test_config is None:
         app.config.from_pyfile('config.py', silent=True)
     else:
         app.config.from_mapping(test_config)
-    
+
     try:
         os.makedirs(app.instance_path)
     except OSError:
         pass
+
+    if app.config['SENTRY_DSN']:
+        sentry_sdk.init(
+            dsn=app.config['SENTRY_DSN'],
+            integrations=[FlaskIntegration()],
+        )
 
     @app.route("/", methods = ['POST', 'GET'] )
     def index():

@@ -1,3 +1,4 @@
 flask
 pytz
 pyyaml
+sentry-sdk[flask]
