@@ -34,3 +34,11 @@ class Event:
             tzinfo=pytz.timezone('Europe/London')
         )
         return end.strftime('%I:%M%p')
+
+    def has_end(self):
+        return \
+            self.data['start_year'] != self.data['end_year'] or \
+            self.data['start_month'] != self.data['end_month'] or \
+            self.data['start_day'] != self.data['end_day'] or \
+            self.data['start_hour'] != self.data['end_hour'] or \
+            self.data['start_minute'] != self.data['end_minute']

@@ -11,6 +11,7 @@
 
     <p class="date-time">
         {{ event.get_start_strftime() }}
+        {% if event.has_end() %} - {{ event.get_end_strftime() }}{% endif %}
     </p>
 
     {% if event.url %}
