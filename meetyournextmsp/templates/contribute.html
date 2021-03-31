@@ -42,34 +42,38 @@
 
     <div class="input-group">
       Start Time
-      <select name="start-time-hour">
-        {% for row in range(0,24) %}
-          <option value="{{ row }}">{{ row }}</option>
-        {% endfor %}
-      </select>:
-      <select name="start-time-minute">
-          <option value="00">0</option>
-          <option value="15">15</option>
-          <option value="30">30</option>
-          <option value="45">45</option>
-      </select>
+      <div class="input-widgets">
+        <select name="start-time-hour">
+          {% for row in range(0,24) %}
+            <option value="{{ row }}">{{ row }}</option>
+          {% endfor %}
+        </select>:
+        <select name="start-time-minute">
+            <option value="00">0</option>
+            <option value="15">15</option>
+            <option value="30">30</option>
+            <option value="45">45</option>
+        </select>
+      </div>
     </div>
     
     <div class="input-group">
       End Time (If known)
-      <select name="end-time-hour">
-        <option value=""></option>
-        {% for row in range(0,24) %}
-          <option value="{{ row }}">{{ row }}</option>
-        {% endfor %}
-      </select>:
-      <select name="end-time-minute">
+      <div class="input-widgets">
+        <select name="end-time-hour">
           <option value=""></option>
-          <option value="00">0</option>
-          <option value="15">15</option>
-          <option value="30">30</option>
-          <option value="45">45</option>
-      </select>
+          {% for row in range(0,24) %}
+            <option value="{{ row }}">{{ row }}</option>
+          {% endfor %}
+        </select>:
+        <select name="end-time-minute">
+            <option value=""></option>
+            <option value="00">0</option>
+            <option value="15">15</option>
+            <option value="30">30</option>
+            <option value="45">45</option>
+        </select>
+      </div>
     </div>
 
     <div class="input-group">

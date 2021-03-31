@@ -128,7 +128,7 @@ form .input-group ul.input-where li {
      margin: 5px 0;
 }
 
-form input[type="text"], form input[type="email"], form input[type="url"], form textarea {
+form input[type="text"], form input[type="email"], form input[type="url"],form input[type="date"], form textarea {
     display: block;
 }
 
