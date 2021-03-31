@@ -56,13 +56,15 @@
     </div>
     
     <div class="input-group">
-      End Time
+      End Time (If known)
       <select name="end-time-hour">
+        <option value=""></option>
         {% for row in range(0,24) %}
           <option value="{{ row }}">{{ row }}</option>
         {% endfor %}
       </select>:
       <select name="end-time-minute">
+          <option value=""></option>
           <option value="00">0</option>
           <option value="15">15</option>
           <option value="30">30</option>
