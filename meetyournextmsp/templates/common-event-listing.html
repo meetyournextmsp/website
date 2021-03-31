@@ -6,7 +6,7 @@
 
     <h3>{{ event.title }}</h3>
     {% if not event.cancelled %}
-        <p class="description">{{ event.description }}</p>
+        <p class="description">{{ event.description|urlize(40, true) }}</p>
     {% endif %}
 
     <p class="date-time">
