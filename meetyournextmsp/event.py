@@ -24,6 +24,17 @@ class Event:
         )
         return start.strftime('%a %d %b %Y %I:%M%p')
 
+    def get_start_strftime_for_time_tag(self):
+        start = datetime.datetime(
+            self.data['start_year'],
+            self.data['start_month'],
+            self.data['start_day'],
+            self.data['start_hour'],
+            self.data['start_minute'],
+            tzinfo=pytz.timezone('Europe/London')
+        )
+        return start.isoformat()
+
     def get_end_strftime(self):
         end = datetime.datetime(
             self.data['end_year'],
@@ -34,6 +45,17 @@ class Event:
             tzinfo=pytz.timezone('Europe/London')
         )
         return end.strftime('%I:%M%p')
+
+    def get_end_strftime_for_time_tag(self):
+        end = datetime.datetime(
+            self.data['end_year'],
+            self.data['end_month'],
+            self.data['end_day'],
+            self.data['end_hour'],
+            self.data['end_minute'],
+            tzinfo=pytz.timezone('Europe/London')
+        )
+        return end.isoformat()
 
     def has_end(self):
         return \

@@ -10,9 +10,12 @@
 
     {% if all_events %}
 
-        {% for event in all_events %}
-            {% include 'common-event-listing.html' %}
-        {% endfor %}
+        <div itemscope itemtype="https://schema.org/Place">
+            <meta itemprop="name" content="Scotland" />
+            {% for event in all_events %}
+                {% include 'common-event-listing.html' %}
+            {% endfor %}
+        </div>
 
     {% else %}
 

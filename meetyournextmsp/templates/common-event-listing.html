@@ -1,22 +1,32 @@
 
-<div class="event-listing{% if event.cancelled %} event-listing-cancelled{% endif %}">
+<div class="event-listing{% if event.cancelled %} event-listing-cancelled{% endif %}" itemprop="event" itemscope itemtype="https://schema.org/Event">
     {% if event.cancelled %}
         <p class="cancelled">CANCELLED</p>
+        <meta itemprop="eventStatus" content="https://schema.org/EventCancelled" />
+    {% else %}
+        <meta itemprop="eventStatus" content="https://schema.org/EventScheduled" />
     {% endif %}
 
-    <h3>{{ event.title }}</h3>
+    <h3 itemprop="name">{{ event.title }}</h3>
     {% if not event.cancelled %}
-        <p class="description">{{ event.description|urlize(40, true) }}</p>
+        <p class="description" itemprop="description">{{ event.description|urlize(40, true) }}</p>
     {% endif %}
 
     <p class="date-time">
-        {{ event.get_start_strftime() }}
-        {% if event.has_end() %} - {{ event.get_end_strftime() }}{% endif %}
+        <time itemprop="startDate" datetime="{{ event.get_start_strftime_for_time_tag() }}">{{ event.get_start_strftime() }}</time>
+        {% if event.has_end() %}
+            - <time itemprop="endDate" datetime="{{ event.get_end_strftime_for_time_tag() }}">{{ event.get_end_strftime() }}
+        {% endif %}
     </p>
 
     {% if event.url %}
         <div class="action-button-wrapper">
-            <a href="{{ event.url }}" class="action-button">Find out more</a>
+            <a href="{{ event.url }}" class="action-button" itemprop="url">Find out more</a>
+        </div>
+        <div itemprop="location" itemscope itemtype="https://schema.org/VirtualLocation">
+            <meta itemprop="url" content="{{ event.url }}" />
         </div>
     {% endif %}
+
+    <meta itemprop="eventAttendanceMode" content="https://schema.org/OnlineEventAttendanceMode" />
 </div>

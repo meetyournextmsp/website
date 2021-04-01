@@ -9,20 +9,22 @@
 
     <h2>{{ constituency_title }} ({{ region_title }}) hustings</h2>
 
+        <div itemscope itemtype="https://schema.org/Place">
+            <meta itemprop="name" content="{{ constituency_title }}, Scotland" />
 
+            {% if events %}
 
-    {% if events %}
+                {% for event in events %}
+                    {% include 'common-event-listing.html' %}
+                {% endfor %}
 
-        {% for event in events %}
-            {% include 'common-event-listing.html' %}
-        {% endfor %}
+            {% else %}
 
-    {% else %}
+                Sorry, we don't know of any events for {{ constituency_title }} or the region of {{ region_title }}.
 
-        Sorry, we don't know of any events for {{ constituency_title }} or the region of {{ region_title }}.
+            {% endif %}
 
-    {% endif %}
-
+        </div>
 
     <h2>Do you know of any more events?</h2>
 
@@ -35,9 +37,14 @@
 
         <h2>Scottish hustings</h2>
 
-        {% for event in national_events %}
-            {% include 'common-event-listing.html' %}
-        {% endfor %}
+        <div itemscope itemtype="https://schema.org/Place">
+            <meta itemprop="name" content="Scotland" />
+
+            {% for event in national_events %}
+                {% include 'common-event-listing.html' %}
+            {% endfor %}
+
+        </div>
 
         <h2>Do you know of any more events?</h2>
 
