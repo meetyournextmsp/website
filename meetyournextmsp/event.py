@@ -33,7 +33,8 @@ class Event:
             self.data['start_minute'],
             tzinfo=pytz.timezone('Europe/London')
         )
-        return start.isoformat()
+        # Can't use isoformat - produces a different and incorrect result on live server!
+        return start.strftime('%Y-%m-%dT%H:%M+01:00')
 
     def get_end_strftime(self):
         end = datetime.datetime(
@@ -55,7 +56,8 @@ class Event:
             self.data['end_minute'],
             tzinfo=pytz.timezone('Europe/London')
         )
-        return end.isoformat()
+        # Can't use isoformat - produces a different and incorrect result on live server!
+        return end.strftime('%Y-%m-%dT%H:%M+01:00')
 
     def has_end(self):
         return \
