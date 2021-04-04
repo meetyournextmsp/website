@@ -7,7 +7,7 @@ import datetime
 import time
 import sentry_sdk
 from sentry_sdk.integrations.flask import FlaskIntegration
-
+from contextlib import closing
 from flask import Flask, render_template, abort, redirect, request
 
 
@@ -41,27 +41,27 @@ def create_app(test_config=None):
     def index():
         if request.method == 'POST' and request.form['postcode']:
             postcode = request.form['postcode'].replace(' ','').lower()
-            database = sqlite3.connect(app.config['DATABASE_POSTCODES'])
-            database.row_factory = sqlite3.Row
-            cur = database.cursor()
-            # Try and find an exact match.
-            cur.execute(
-                'SELECT ScottishParliamentaryConstituency2014Name FROM lookup WHERE Postcode=?',
-                [postcode]
-            )
-            data = cur.fetchone()
-            if data:
-                return redirect('/constituency/'+data['ScottishParliamentaryConstituency2014Name'])
-            # Does a partial match work?
-            cur.execute(
-                'SELECT ScottishParliamentaryConstituency2014Name FROM lookup WHERE Postcode LIKE ? GROUP BY ScottishParliamentaryConstituency2014Name',
-                [postcode+"%"]
-            )
-            data = cur.fetchall()
-            if data and len(data) == 1:
-                return redirect('/constituency/'+data[0]['ScottishParliamentaryConstituency2014Name'])
-            # Give up
-            return render_template('index-postcode-error.html')
+            with closing(sqlite3.connect(app.config['DATABASE_POSTCODES'])) as database:
+                database.row_factory = sqlite3.Row
+                with closing(database.cursor()) as cur:
+                    # Try and find an exact match.
+                    cur.execute(
+                        'SELECT ScottishParliamentaryConstituency2014Name FROM lookup WHERE Postcode=?',
+                        [postcode]
+                    )
+                    data = cur.fetchone()
+                    if data:
+                        return redirect('/constituency/'+data['ScottishParliamentaryConstituency2014Name'])
+                    # Does a partial match work?
+                    cur.execute(
+                        'SELECT ScottishParliamentaryConstituency2014Name FROM lookup WHERE Postcode LIKE ? GROUP BY ScottishParliamentaryConstituency2014Name',
+                        [postcode+"%"]
+                    )
+                    data = cur.fetchall()
+                    if data and len(data) == 1:
+                        return redirect('/constituency/'+data[0]['ScottishParliamentaryConstituency2014Name'])
+                    # Give up
+                    return render_template('index-postcode-error.html')
         else:
             return render_template('index.html')
 
@@ -97,67 +97,67 @@ def create_app(test_config=None):
             return render_template('contribute-thankyou.html')
 
         else:
-            database = sqlite3.connect(app.config['DATABASE'])
-            database.row_factory = sqlite3.Row
-            cur = database.cursor()
-            cur.execute('SELECT * FROM tag WHERE  extra_is_constituency=1 ORDER by title ASC', [])
-            constituencies = cur.fetchall()
-            cur.execute('SELECT * FROM tag WHERE  extra_is_region=1 ORDER by title ASC', [])
-            regions = cur.fetchall()
-            return render_template('contribute.html', constituencies=constituencies, regions=regions )
+            with closing(sqlite3.connect(app.config['DATABASE'])) as database:
+                database.row_factory = sqlite3.Row
+                with closing(database.cursor()) as cur:
+                    cur.execute('SELECT * FROM tag WHERE  extra_is_constituency=1 ORDER by title ASC', [])
+                    constituencies = cur.fetchall()
+                    cur.execute('SELECT * FROM tag WHERE  extra_is_region=1 ORDER by title ASC', [])
+                    regions = cur.fetchall()
+                    return render_template('contribute.html', constituencies=constituencies, regions=regions )
 
     @app.route("/event/<id>")
     def event(id):
-        database = sqlite3.connect(app.config['DATABASE'])
-        database.row_factory = sqlite3.Row
-        cur = database.cursor()
-        cur.execute('SELECT * FROM event WHERE id=?', [id])
-        event = cur.fetchone()
-        if not event:
-            abort(404)
-        return render_template('event.html', event=Event(event))
+        with closing(sqlite3.connect(app.config['DATABASE'])) as database:
+            database.row_factory = sqlite3.Row
+            with closing(database.cursor()) as cur:
+                cur.execute('SELECT * FROM event WHERE id=?', [id])
+                event = cur.fetchone()
+                if not event:
+                    abort(404)
+                return render_template('event.html', event=Event(event))
 
     @app.route("/constituencies")
     def constituencies():
-        database = sqlite3.connect(app.config['DATABASE'])
-        database.row_factory = sqlite3.Row
-        cur = database.cursor()
-        cur.execute('SELECT * FROM tag WHERE  extra_is_constituency=1 ORDER by title ASC', [])
-        constituencies = cur.fetchall()
-        return render_template('constituencies.html', constituencies=constituencies)
+        with closing(sqlite3.connect(app.config['DATABASE'])) as database:
+            database.row_factory = sqlite3.Row
+            with closing(database.cursor()) as cur:
+                cur.execute('SELECT * FROM tag WHERE  extra_is_constituency=1 ORDER by title ASC', [])
+                constituencies = cur.fetchall()
+                return render_template('constituencies.html', constituencies=constituencies)
 
     @app.route("/constituency/<id>")
     def constituency(id):
-        database = sqlite3.connect(app.config['DATABASE'])
-        database.row_factory = sqlite3.Row
-        cur = database.cursor()
-        cur.execute('SELECT * FROM tag WHERE extra_is_constituency=1 AND id=?', [id])
-        tag = cur.fetchone()
-        if not tag:
-            abort(404)
+        with closing(sqlite3.connect(app.config['DATABASE'])) as database:
+            database.row_factory = sqlite3.Row
+            with closing(database.cursor()) as cur:
+                cur.execute('SELECT * FROM tag WHERE extra_is_constituency=1 AND id=?', [id])
+                tag = cur.fetchone()
+                if not tag:
+                    abort(404)
 
-        cur.execute('SELECT * FROM tag WHERE extra_is_region=1 AND id=?', [tag['extra_region']])
-        region_tag = cur.fetchone()
-        cur.execute(
-            'SELECT event.* FROM event JOIN event_has_tag ON event_has_tag.event_id = event.id WHERE event.start_epoch > ? AND event.deleted = 0 AND event_has_tag.tag_id=? ORDER BY event.start_epoch ASC',
-            [time.time(), 'national']
-        )
-        national_events = [Event(i) for i in cur.fetchall()]
+                cur.execute('SELECT * FROM tag WHERE extra_is_region=1 AND id=?', [tag['extra_region']])
+                region_tag = cur.fetchone()
+                cur.execute(
+                    'SELECT event.* FROM event JOIN event_has_tag ON event_has_tag.event_id = event.id WHERE event.start_epoch > ? AND event.deleted = 0 AND event_has_tag.tag_id=? ORDER BY event.start_epoch ASC',
+                    [time.time(), 'national']
+                )
+                national_events = [Event(i) for i in cur.fetchall()]
 
-        # TODO need a group by so if an event is in both region and constituency it won't appear twice
-        cur.execute(
-            'SELECT event.* FROM event JOIN event_has_tag ON event_has_tag.event_id = event.id WHERE event.start_epoch > ? AND  event.deleted = 0 AND  (event_has_tag.tag_id=? OR event_has_tag.tag_id=?) ORDER BY event.start_epoch ASC',
-            [time.time(), tag['id'], tag['extra_region']]
-        )
-        events = [Event(i) for i in cur.fetchall()]
+                # TODO need a group by so if an event is in both region and constituency it won't appear twice
+                cur.execute(
+                    'SELECT event.* FROM event JOIN event_has_tag ON event_has_tag.event_id = event.id WHERE event.start_epoch > ? AND  event.deleted = 0 AND  (event_has_tag.tag_id=? OR event_has_tag.tag_id=?) ORDER BY event.start_epoch ASC',
+                    [time.time(), tag['id'], tag['extra_region']]
+                )
+                events = [Event(i) for i in cur.fetchall()]
 
-        return render_template(
-            'constituency.html',
-            constituency_title=tag['title'],
-            national_events=national_events,
-            events=events,
-            region_title=region_tag['title']
-        )
+                return render_template(
+                    'constituency.html',
+                    constituency_title=tag['title'],
+                    national_events=national_events,
+                    events=events,
+                    region_title=region_tag['title']
+                )
 
     @app.route("/about")
     def about():
@@ -165,14 +165,14 @@ def create_app(test_config=None):
 
     @app.route("/all_events")
     def all_events():
-        database = sqlite3.connect(app.config['DATABASE'])
-        database.row_factory = sqlite3.Row
-        cur = database.cursor()
-        cur.execute(
-            'SELECT event.* FROM event WHERE event.start_epoch > ? AND event.deleted = 0 ORDER BY event.start_epoch ASC',
-            [time.time()]
-        )
-        all_events = [Event(i) for i in cur.fetchall()]
-        return render_template('all_events.html', all_events=all_events)
+        with closing(sqlite3.connect(app.config['DATABASE'])) as database:
+            database.row_factory = sqlite3.Row
+            with closing(database.cursor()) as cur:
+                cur.execute(
+                    'SELECT event.* FROM event WHERE event.start_epoch > ? AND event.deleted = 0 ORDER BY event.start_epoch ASC',
+                    [time.time()]
+                )
+                all_events = [Event(i) for i in cur.fetchall()]
+                return render_template('all_events.html', all_events=all_events)
 
     return app
