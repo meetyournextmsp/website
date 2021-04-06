@@ -4,6 +4,13 @@
 {% block htmltitle %}{{ constituency_title }} ({{ region_title }}){% endblock %}
 
 
+{% block head %}
+    <meta property="og:description" content="Before you vote in the Scottish Parliament elections, hear from your candidates and the parties on issues that matter to you. We list local and national Hustings for {{ constituency_title }} ({{ region_title }}), public meetings with politicians from opposing sides, for you to attend and ask questions." />
+    <meta name="twitter:description" content="Before you vote in the Scottish Parliament elections, hear from your candidates and the parties on issues that matter to you. We list local and national Hustings for {{ constituency_title }} ({{ region_title }}), public meetings with politicians from opposing sides, for you to attend and ask questions.">
+{% endblock %}
+
+
+
 {% block content %}
 
 
