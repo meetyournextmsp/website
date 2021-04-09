@@ -2,6 +2,7 @@ html, body {
     padding: 0px;
     margin: 0px;
     font-size: 16px;
+    font-family: 'Antic Slab', serif;
     background: #eee;
 }
 
@@ -34,7 +35,7 @@ html, body {
 }
 
 h1, h2, h3, h4 {
-    font-family: arial, sans-serif;
+    font-family: 'Poppins', sans-serif;
 }
 
 h1 a {
@@ -51,20 +52,20 @@ p.front-page {
     text-align: center;
     font-size: 1.3rem;
     margin: 30px 0;
-    font-family: arial, sans-serif;
+    font-family: 'Poppins', sans-serif;
 }
 
 p.front-page-mini {
     text-align: center;
     margin: 30px 0;
-    font-family: arial, sans-serif;
+    font-family: 'Poppins', sans-serif;
 }
 
 form.front-page input {
     display: block;
     margin: 30px auto;
     font-size: 130%;
-    font-family: arial, sans-serif;
+    font-family: 'Poppins', sans-serif;
 }
 
 ul.constituencies li {
@@ -81,7 +82,7 @@ a.action-button, .action-button-wrapper input[type="submit"] {
     text-decoration: none;
     display: inline-block;
     padding: 5px 20px;
-    font-family: arial, sans-serif;
+    font-family: 'Poppins', sans-serif;
 }
 a.action-button:hover, a.action-button:focus, .action-button-wrapper input[type="submit"]:hover, .action-button-wrapper input[type="submit"]:focus {
     color: white;

@@ -2,7 +2,6 @@
 <html>
     <head>
         <title>{% block htmltitle %}{% endblock %} - Meet Your Next MSP</title>
-        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
         <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
         <meta name="HandheldFriendly" content="true">
@@ -10,6 +9,8 @@
         {% block head %}{% endblock %}
         <meta name="twitter:title" content="{% block twittertitle %}{% endblock %} - Meet Your Next MSP" />
         <meta name="twitter:site" content="@meetyournextmsp" />
+        <link href="https://fonts.googleapis.com/css2?family=Antic+Slab&family=Poppins:wght@200&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     </head>
     <body>
         <div class="header">
