@@ -14,9 +14,9 @@
 {% block content %}
 
 
-    <h2>{{ constituency_title }} ({{ region_title }}) hustings</h2>
+    <h2 class="text-2xl font-bold">{{ constituency_title }} ({{ region_title }}) hustings</h2>
 
-        <div itemscope itemtype="https://schema.org/Place">
+        <div itemscope itemtype="https://schema.org/Place" class="mb-6">
             <meta itemprop="name" content="{{ constituency_title }}, Scotland" />
 
             {% if events %}
@@ -33,18 +33,13 @@
 
         </div>
 
-    <h2>Do you know of any more events?</h2>
-
-    <div class="action-button-wrapper">
-        <a href="/contribute" class="action-button">Tell us about more events</a>
-    </div>
-
+{% include "partials/contribute.html" %}
 
     {% if national_events %}
 
-        <h2>Scottish hustings</h2>
+        <h2 class="text-2xl font-bold mt-8">Scottish hustings</h2>
 
-        <div itemscope itemtype="https://schema.org/Place">
+        <div itemscope itemtype="https://schema.org/Place" class="mb-6">
             <meta itemprop="name" content="Scotland" />
 
             {% for event in national_events %}
@@ -53,14 +48,7 @@
 
         </div>
 
-        <h2>Do you know of any more events?</h2>
-
-        <div class="action-button-wrapper">
-            <a href="/contribute" class="action-button">Tell us about more events</a>
-        </div>
+        {% include "partials/contribute.html" %}
 
     {% endif %}
 {% endblock %}
-
-
-

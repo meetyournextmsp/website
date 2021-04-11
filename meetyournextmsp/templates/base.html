@@ -9,20 +9,59 @@
         {% block head %}{% endblock %}
         <meta name="twitter:title" content="{% block twittertitle %}{% endblock %} - Meet Your Next MSP" />
         <meta name="twitter:site" content="@meetyournextmsp" />
+<!--
         <link href="https://fonts.googleapis.com/css2?family=Antic+Slab&family=Poppins:wght@200&display=swap" rel="stylesheet">
-        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+      -->
+        <!-- <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"> -->
+
+<link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+<link rel="stylesheet" href="{{ url_for('static', filename='tailwind.css')}}">
+
     </head>
     <body>
+      <div class="p-8 bg-blue-800">
+      <div class="md:flex md:items-center md:justify-between">
+        <div class="flex-1 min-w-0">
+          <h2 class="text-2xl font-bold leading-7 text-white sm:text-3xl sm:truncate">
+            <a href="/">Meet Your Next MSP</a>
+          </h2>
+        </div>
+      </div>
+    </div>
+
+<!--
         <div class="header">
             <div class="contentColumn">
                 <h1><a href="/">Meet Your Next MSP</a></h1>
             </div>
         </div>
-        <div class="content">
-            <div class="contentColumn">
-                {% block content %}{% endblock %}
-            </div>
-        </div>
+-->
+
+<!--
+  This example requires Tailwind CSS v2.0+
+
+  This example requires some changes to your config:
+
+  ```
+  // tailwind.config.js
+  module.exports = {
+    // ...
+    plugins: [
+      // ...
+      require('@tailwindcss/typography'),
+    ]
+  }
+  ```
+-->
+<div class="relative py-16 bg-white overflow-hidden">
+  <div class="relative px-4 sm:px-6 lg:px-8">
+    <div class="text-lg max-w-prose mx-auto">
+      {% block content %}{% endblock %}
+    </div>
+  </div>
+</div>
+
+        <!--
         <div class="footer">
             <div class="contentColumn">
                 <hr>
@@ -30,10 +69,77 @@
                 <div class="footer-link"><a href="/contribute">Tell us about an event</a></div>
                 <div class="footer-link"><a href="/all_events">All events</a></div>
                 <div class="footer-link"><a href="/about">About (including Open Data)</a></div>
-                <div class="footer-link"><a href="https://twitter.com/meetyournextmsp">Tweet us @meetyournextmsp</a></div>
-                <div class="footer-link"><a href="mailto:hello@meetyournextmsp.scot">Email us hello@meetyournextmsp.scot</a></div>
+                <div class="footer-link"><a href="https://twitter.com/meetyournextmsp">Tweet us<br/> @meetyournextmsp</a></div>
+                <div class="footer-link"><a href="mailto:hello@meetyournextmsp.scot">Email us<br/>hello@meetyournextmsp.scot</a></div>
             </div>
         </div>
+-->
+
+        <!--
+          This example requires Tailwind CSS v2.0+
+        -->
+        <footer class="bg-gray-800" aria-labelledby="footerHeading">
+          <h2 id="footerHeading" class="sr-only">Footer</h2>
+          <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:py-16 lg:px-8">
+            <div class="xl:grid xl:grid-cols-3 xl:gap-8" border=1>
+              <div class="grid grid-cols-2 gap-8 xl:col-span-2">
+                <div class="md:grid md:grid-cols-2 md:gap-8">
+                  <div>
+                    <ul class="mt-4 space-y-4">
+                      <li>
+                        <a href="/constituencies" class="text-base text-gray-300 hover:text-white">
+                          Find your constituency
+                        </a>
+                      </li>
+
+                      <li>
+                        <a href="/contribute" class="text-base text-gray-300 hover:text-white">
+                          Tell us about an event
+                        </a>
+                      </li>
+
+                      <li>
+                        <a href="/all_events" class="text-base text-gray-300 hover:text-white">
+                          All events
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                  <div class="mt-12 md:mt-0">
+                    <!-- empty -->
+                  </div>
+                </div>
+                <div class="md:grid md:grid-cols-2 md:gap-8">
+                  <div>
+                    <!-- empty -->
+                  </div>
+                  <div class="mt-12 md:mt-0">
+                    <ul class="mt-4 space-y-4">
+                      <li>
+                        <a href="/about" class="text-base text-gray-300 hover:text-white">
+                          About (including Open Data)
+                        </a>
+                      </li>
+
+                      <li>
+                        <a href="https://twitter.com/meetyournextmsp" class="text-base text-gray-300 hover:text-white">
+                          Tweet us<br/>@meetyournextmsp
+                        </a>
+                      </li>
+
+                      <li>
+                        <a href="mailto:hello@meetyournextmsp.scot" class="text-base text-gray-300 hover:text-white">
+                          Email us<br/> hello@meetyournextmsp.scot
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </footer>
+
         {% block javascripts %}{% endblock %}
     </body>
 </html>

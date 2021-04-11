@@ -16,17 +16,23 @@
 
     <p class="front-page">Hustings are public meetings with politicians from opposing sides; you can attend and ask questions.</p>
 
-    <p class="front-page">To find events for you, please tell us your postcode:</p>
 
-    <form method="post" class="front-page">
-      <input name="postcode">
-      <input type="submit" value="Find My Events">
-    </form>
+    <!--
+      This example requires Tailwind CSS v2.0+
+      ```
+    -->
+    <div class="flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+      <div class="max-w-md w-full space-y-8">
+        <div>
+          <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
+            To find events for you, please tell us your postcode:
+          </h2>
+        </div>
+        {% include "partials/postcode.html" %}
+      </div>
+    </div>
 
     <p class="front-page-mini">(or <a href="/constituencies">select from this list of constituencies</a>)</p>
 
   </div>
 {% endblock %}
-
-
-

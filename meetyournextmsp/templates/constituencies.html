@@ -6,17 +6,16 @@
 
 {% block content %}
 
+<style>
+  li:nth-child(even) {background: #F3F4F6}
+</style>
 
-    <h2>Constituencies</h2>
+    <h2 class="text-2xl font-bold">Constituencies</h2>
 
 
     <p>Enter your postcode or select from the list below.</p>
 
-      <form method="post" action="/">
-        <input name="postcode">
-        <input type="submit" value="Find My Events">
-      </form>
-
+    {% include "partials/postcode.html" %}
 
     <ul class="constituencies">
         {% for constituency in constituencies %}
@@ -25,5 +24,3 @@
     </ul>
 
 {% endblock %}
-
-

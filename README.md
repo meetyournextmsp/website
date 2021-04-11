@@ -20,7 +20,7 @@ Create a directory called `contribs`.
 
 Notice the `postcodes.sqlite` file in the repository - you'll need it next.
 
-Create a directory called `instance` in the root of the checked out code. Add a file called `config.py`. It's contents should be:
+Create a directory called `instance` in the root of the checked out code. Add a file called `config.py`. Its contents should be:
 
     DATABASE_POSTCODES="postcodes.sqlite"
     DATABASE="database-you-downloaded.sqlite"
