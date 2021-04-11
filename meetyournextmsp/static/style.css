@@ -137,3 +137,10 @@ form textarea {
     width: 100%;
     height: 100px;
 }
+
+
+.stat-number {
+    color: #0065BF;
+    font-size: 1.1rem;
+    font-weight: bold;
+}

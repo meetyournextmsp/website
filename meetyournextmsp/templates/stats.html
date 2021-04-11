@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+
+
+{% block htmltitle %}Stats{% endblock %}
+
+{% block head %}
+  <meta property="og:description" content="We list local and national Hustings for the Scottish Parliament elections - see stats on how many events we list, and by area." />
+  <meta name="twitter:description" content="We list local and national Hustings for the Scottish Parliament elections - see stats on how many events we list, and by area." />
+{% endblock %}
+
+
+{% block content %}
+
+
+    <h2>Stats on Scottish Hustings</h2>
+
+    <p>We list hustings for the Scottish Parliament elections in May 2021. Here are some numbers on how many events we listed:</p>
+
+    <h2>All Events</h2>
+
+    <p>
+        We listed <span class="stat-number">{{ total_events }}</span> events in total.
+    </p>
+
+    <h2>National Events</h2>
+
+    <p>
+        We listed <span class="stat-number">{{ count_national_events }}</span> national events.
+    </p>
+
+    {% if count_national_events_in_future %}
+        <p>
+            <span class="stat-number">{{ count_national_events_in_future }}</span> of them are still to happen!
+        </p>
+
+        <div class="action-button-wrapper">
+            <a href="/" class="action-button">Look up your events</a>
+        </div>
+    {% endif %}
+
+    <h2>Regions</h2>
+
+    <table>
+        <tr>
+            <th>Region</th>
+            <th>Events</th>
+        </tr>
+        {% for region in regions %}
+            <tr>
+                <td>{{ region.tag_title }}</td>
+                <td><span class="stat-number">{{ region.c }}</span></td>
+            </tr>
+        {% endfor %}
+    </table>
+
+    <h2>Constituencies</h2>
+
+    <table>
+        <tr>
+            <th>Constituency</th>
+            <th>Events</th>
+        </tr>
+        {% for constituency in constituencies %}
+            <tr>
+                <td><a href="/constituency/{{ constituency.tag_id }}">{{ constituency.tag_title }}</a></td>
+                <td><span class="stat-number">{{ constituency.c }}</span></td>
+            </tr>
+        {% endfor %}
+    </table>
+
+    <h2>Do you know of any more events?</h2>
+
+    <div class="action-button-wrapper">
+        <a href="/contribute" class="action-button">Tell us about more events</a>
+    </div>
+
+
+
+{% endblock %}
+
+

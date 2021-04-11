@@ -175,4 +175,52 @@ def create_app(test_config=None):
                 all_events = [Event(i) for i in cur.fetchall()]
                 return render_template('all_events.html', all_events=all_events)
 
+    @app.route("/stats")
+    def stats():
+        with closing(sqlite3.connect(app.config['DATABASE'])) as database:
+            database.row_factory = sqlite3.Row
+            with closing(database.cursor()) as cur:
+
+                cur.execute(
+                    'SELECT COUNT(event.id) AS c FROM event WHERE event.deleted = 0',
+                )
+                total_events = cur.fetchone()['c']
+
+                cur.execute(
+                    'SELECT COUNT(event.id) AS c FROM event JOIN event_has_tag ON event_has_tag.event_id = event.id WHERE event.deleted = 0 AND event_has_tag.tag_id=?',
+                    ['national']
+                )
+                count_national_events = cur.fetchone()['c']
+
+                cur.execute(
+                    'SELECT COUNT(event.id) AS c FROM event JOIN event_has_tag ON event_has_tag.event_id = event.id WHERE event.start_epoch > ? AND event.deleted = 0 AND event_has_tag.tag_id=? ',
+                    [time.time(), 'national']
+                )
+                count_national_events_in_future = cur.fetchone()['c']
+
+                cur.execute(
+                    'SELECT COUNT(event.id) AS c, tag.id AS tag_id, tag.title AS tag_title FROM event ' +
+                    'JOIN event_has_tag ON event_has_tag.event_id = event.id ' +
+                    'JOIN tag ON event_has_tag.tag_id = tag.id ' +
+                    'WHERE event.deleted = 0 AND tag.extra_is_region = 1 GROUP BY tag.id ORDER BY c DESC'
+                )
+                regions = cur.fetchall()
+
+                cur.execute(
+                    'SELECT COUNT(event.id) AS c, tag.id AS tag_id, tag.title AS tag_title FROM event ' +
+                    'JOIN event_has_tag ON event_has_tag.event_id = event.id ' +
+                    'JOIN tag ON event_has_tag.tag_id = tag.id ' +
+                    'WHERE event.deleted = 0 AND tag.extra_is_constituency = 1 GROUP BY tag.id ORDER BY c DESC'
+                )
+                constituencies = cur.fetchall()
+
+        return render_template(
+            'stats.html',
+            total_events=total_events,
+            count_national_events=count_national_events,
+            count_national_events_in_future=count_national_events_in_future,
+            regions=regions,
+            constituencies=constituencies,
+        )
+
     return app
