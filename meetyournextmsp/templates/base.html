@@ -12,6 +12,10 @@
         <link href="https://fonts.googleapis.com/css2?family=Mulish&family=Roboto+Slab&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
         <link rel="shortcut icon" type="image/png" href="{{ url_for('static', filename='logo600.png') }}"/>
+        <meta name="twitter:image" content="{{ url_for('static', filename='logo600.png') }}" />
+        <meta name="twitter:image:alt" content="Logo - find Scottish hustings" />
+        <meta property="og:image:url" content="{{ url_for('static', filename='logo600.png') }}" />
+        <meta property="og:image:type" content="image/png" />
     </head>
     <body>
         <div class="header">
