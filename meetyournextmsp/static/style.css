@@ -25,14 +25,33 @@ html, body {
 
 .footer {
     background: #eee;
-    text-align: right;
     padding: 50px 0;
     font-size: 0.9rem;
 }
 
+.footer .footer-logo {
+    text-align: center;
+}
+
 .footer .footer-link {
     font-family: 'Mulish', sans-serif;
-    margin: 10px 0;
+    margin: 15px 0;
+    text-align: center;
+}
+
+@media screen and (min-width: 800px) {
+    .footer .footer-left {
+        float: left;
+    }
+    .footer .footer-left .footer-link {
+        text-align: left;
+    }
+    .footer .footer-right {
+        float: right;
+    }
+    .footer .footer-right .footer-link  {
+        text-align: right;
+    }
 }
 
 h1, h2, h3, h4 {
