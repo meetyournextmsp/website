@@ -6,22 +6,16 @@
 
 {% block content %}
 
-    <h2>All hustings (Scotland and local)</h2>
+    <h2>All hustings (Scotland and local) including past ones</h2>
 
-    <p>This only shows future events - <a href="/all_events_plus_past">you can view past and future events if you want</a>.</p>
-
-    {% if all_events %}
+    {% if all_events_plus_past %}
 
         <div itemscope itemtype="https://schema.org/Place">
             <meta itemprop="name" content="Scotland" />
-            {% for event in all_events %}
+            {% for event in all_events_plus_past %}
                 {% include 'common-event-listing.html' %}
             {% endfor %}
         </div>
-
-    {% else %}
-
-        Sorry, we don't know of any events now.
 
     {% endif %}
 
@@ -33,6 +27,5 @@
     </div>
 
 {% endblock %}
-
 
 

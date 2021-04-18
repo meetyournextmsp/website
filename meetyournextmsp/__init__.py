@@ -183,6 +183,18 @@ def create_app(test_config=None):
                 all_events = [Event(i) for i in cur.fetchall()]
                 return render_template('all_events.html', all_events=all_events)
 
+    @app.route("/all_events_plus_past")
+    def all_events_plus_past():
+        with closing(sqlite3.connect(app.config['DATABASE'])) as database:
+            database.row_factory = sqlite3.Row
+            with closing(database.cursor()) as cur:
+                cur.execute(
+                    'SELECT event.* FROM event WHERE event.deleted = 0 ORDER BY event.start_epoch ASC',
+                    []
+                )
+                all_events_plus_past = [Event(i) for i in cur.fetchall()]
+                return render_template('all_events_plus_past.html', all_events_plus_past=all_events_plus_past)
+
     @app.route("/stats")
     def stats():
         with closing(sqlite3.connect(app.config['DATABASE'])) as database:
