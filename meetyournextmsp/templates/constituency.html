@@ -19,6 +19,12 @@
         <div itemscope itemtype="https://schema.org/Place">
             <meta itemprop="name" content="{{ constituency_title }}, Scotland" />
 
+            {% if past_events_count == 1 %}
+                <p>Sorry, you've already missed an event here.</p>
+            {% elif past_events_count > 1 %}
+                <p>Sorry, you've already missed {{ past_events_count }} events here.</p>
+            {% endif %}
+
             {% if events %}
 
                 {% for event in events %}
@@ -27,7 +33,7 @@
 
             {% else %}
 
-                Sorry, we don't know of any events for {{ constituency_title }} or the region of {{ region_title }}.
+                <p>Sorry, we don't know of any future events for {{ constituency_title }} or the region of {{ region_title }}.</p>
 
             {% endif %}
 

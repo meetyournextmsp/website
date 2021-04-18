@@ -151,12 +151,20 @@ def create_app(test_config=None):
                 )
                 events = [Event(i) for i in cur.fetchall()]
 
+                # TODO need a group by so if an event is in both region and constituency it won't appear twice
+                cur.execute(
+                    'SELECT COUNT(event.id) AS c FROM event JOIN event_has_tag ON event_has_tag.event_id = event.id WHERE event.start_epoch <= ? AND  event.deleted = 0 AND  (event_has_tag.tag_id=? OR event_has_tag.tag_id=?) ORDER BY event.start_epoch ASC',
+                    [time.time(), tag['id'], tag['extra_region']]
+                )
+                past_events_count = cur.fetchone()['c']
+
                 return render_template(
                     'constituency.html',
                     constituency_title=tag['title'],
                     national_events=national_events,
                     events=events,
-                    region_title=region_tag['title']
+                    region_title=region_tag['title'],
+                    past_events_count=past_events_count
                 )
 
     @app.route("/about")
