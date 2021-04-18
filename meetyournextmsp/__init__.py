@@ -160,11 +160,46 @@ def create_app(test_config=None):
 
                 return render_template(
                     'constituency.html',
+                    constituency_id=tag['id'],
                     constituency_title=tag['title'],
                     national_events=national_events,
                     events=events,
                     region_title=region_tag['title'],
                     past_events_count=past_events_count
+                )
+
+    @app.route("/constituency/<id>/plus_past")
+    def constituency_plus_past(id):
+        with closing(sqlite3.connect(app.config['DATABASE'])) as database:
+            database.row_factory = sqlite3.Row
+            with closing(database.cursor()) as cur:
+                cur.execute('SELECT * FROM tag WHERE extra_is_constituency=1 AND id=?', [id])
+                tag = cur.fetchone()
+                if not tag:
+                    abort(404)
+
+                cur.execute('SELECT * FROM tag WHERE extra_is_region=1 AND id=?', [tag['extra_region']])
+                region_tag = cur.fetchone()
+                cur.execute(
+                    'SELECT event.* FROM event JOIN event_has_tag ON event_has_tag.event_id = event.id WHERE event.deleted = 0 AND event_has_tag.tag_id=? ORDER BY event.start_epoch ASC',
+                    ['national']
+                )
+                national_events = [Event(i) for i in cur.fetchall()]
+
+                # TODO need a group by so if an event is in both region and constituency it won't appear twice
+                cur.execute(
+                    'SELECT event.* FROM event JOIN event_has_tag ON event_has_tag.event_id = event.id WHERE  event.deleted = 0 AND  (event_has_tag.tag_id=? OR event_has_tag.tag_id=?) ORDER BY event.start_epoch ASC',
+                    [tag['id'], tag['extra_region']]
+                )
+                events = [Event(i) for i in cur.fetchall()]
+
+                return render_template(
+                    'constituency_plus_past.html',
+                    constituency_id=tag['id'],
+                    constituency_title=tag['title'],
+                    national_events_plus_past=national_events,
+                    events_plus_past=events,
+                    region_title=region_tag['title'],
                 )
 
     @app.route("/about")

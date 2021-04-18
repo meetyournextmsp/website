@@ -16,30 +16,23 @@
 
     <h2>{{ constituency_title }} ({{ region_title }}) hustings</h2>
 
+    <p>
+        This includes events that have past.
+        <a href="/constituency/{{ constituency_id }}">You can view only future events if you want</a>.
+    </p>
+
         <div itemscope itemtype="https://schema.org/Place">
             <meta itemprop="name" content="{{ constituency_title }}, Scotland" />
 
-            {% if past_events_count == 1 %}
-                <p>
-                    Sorry, you've already missed an event here.
-                    <a href="/constituency/{{ constituency_id }}/plus_past">You can view past events if you want</a> - you may be able to find a recording.
-                </p>
-            {% elif past_events_count > 1 %}
-                <p>
-                    Sorry, you've already missed {{ past_events_count }} events here.
-                    <a href="/constituency/{{ constituency_id }}/plus_past">You can view past events if you want</a> - you may be able to find a recording.
-                </p>
-            {% endif %}
+            {% if events_plus_past %}
 
-            {% if events %}
-
-                {% for event in events %}
+                {% for event in events_plus_past %}
                     {% include 'common-event-listing.html' %}
                 {% endfor %}
 
             {% else %}
 
-                <p>Sorry, we don't know of any future events for {{ constituency_title }} or the region of {{ region_title }}.</p>
+                <p>Sorry, we don't know of any events for {{ constituency_title }} or the region of {{ region_title }}.</p>
 
             {% endif %}
 
@@ -52,14 +45,14 @@
     </div>
 
 
-    {% if national_events %}
+    {% if national_events_plus_past %}
 
         <h2>Scottish hustings</h2>
 
         <div itemscope itemtype="https://schema.org/Place">
             <meta itemprop="name" content="Scotland" />
 
-            {% for event in national_events %}
+            {% for event in national_events_plus_past %}
                 {% include 'common-event-listing.html' %}
             {% endfor %}
 
